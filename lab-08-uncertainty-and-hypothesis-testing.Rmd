@@ -118,7 +118,7 @@ head(fluxes_subset, 10)
 
 ## Computing our sample slope by fitting a model
 
-4.  Insert and label a code chunk that fits a linear model between `fco2` and your chosen explanatory variable.\
+5.  Insert and label a code chunk that fits a linear model between `fco2` and your chosen explanatory variable.\
 
 -   State in text narrative under your code how we interpret the model estimate values (i.e. by much does `fco2` change with a unit increase in the explanatory variable?)
 -   You can refer back to your code from lab 7 to write this answer.
@@ -130,7 +130,7 @@ In a sense, therefore, we do roughly have a sense of the underlying "population"
 More often in science, we only have a few samples from a much larger population.
 So in the next exercises we will randomly sub-sample our month of data to simulate this more common scenario.
 
-5.  Copy and complete the code chunk below that will randomize the order of the observations (rows) in your month of data, then slice (retain) only the first 20% of the data. You can manually calculate how many rows that corresponds to by referring back to your answer for Exercise 3.
+6.  Copy and complete the code chunk below that will randomize the order of the observations (rows) in your month of data, then slice (retain) only the first 20% of the data. You can manually calculate how many rows that corresponds to by referring back to your answer for Exercise 3.
 
 -   The new data object should be called `monroe_MONTH_subsample` (insert your month's name at MONTH) and state under the chunk what each row of the code is doing.
 -   Note here we are not yet generating bootstrap samples, so we use `replace  = F`.
@@ -148,13 +148,13 @@ ___ <- fluxes_subset %>%
 
 We will now step you through generating bootstrap samples.
 
-6.  Take 1000 bootstrap samples. Call your new object `monroe_MONTH_boot`
+7.  Take 1000 bootstrap samples. Call your new object `monroe_MONTH_boot`
 
 ```{r create-bootstraps, eval = F}
 ___ <- bootstraps(___, times = 1000)
 ```
 
-7.  For each sample: fit a model and save output in model column. Tidy model output and save in coef_info column. Call your new model object `monroe_MONTH_models`.
+8.  For each sample: fit a model and save output in model column. Tidy model output and save in coef_info column. Call your new model object `monroe_MONTH_models`.
 
 ```{r fit-models, eval = F}
 ___ <- ___ %>%
@@ -164,7 +164,7 @@ ___ <- ___ %>%
   )
 ```
 
-8.  Copy and paste the code chunk below into your starter file, then edit it so that, for each model, it unnests (extract) the slope coefficients. Save the object as `monroe_MONTH_coef` and output the percentiles:
+9.  Copy and paste the code chunk below into your starter file, then edit it so that, for each model, it unnests (extract) the slope coefficients. Save the object as `monroe_MONTH_coef` and output the percentiles:
 
 ```{r get-slope-range, eval = F}
 ___ <- monroe_MONTH_models %>%
@@ -181,7 +181,7 @@ We might ask the question: Are warm temperatures (\> 20-degrees Celsius) more li
 
 First, we need to convert the `air_temperature` variable into a categorical variable.
 
-9.  Copy and paste the code chunk below into your starter file under Exercise 9, and complete the `mutate()` and `case_when()` function combination to set `air_temperature` values greater than 30-degrees Celsius equal to "yes" in a new `warm_temperatures` variable, and "no" when lower than 30-degrees Celsius. Set everything else equal to `NA`. The code will also provide a new month column with either "June" or "July" as entries.
+10.  Copy and paste the code chunk below into your starter file under Exercise 9, and complete the `mutate()` and `case_when()` function combination to set `air_temperature` values greater than 30-degrees Celsius equal to "yes" in a new `warm_temperatures` variable, and "no" when lower than 30-degrees Celsius. Set everything else equal to `NA`. The code will also provide a new month column with either "June" or "July" as entries.
 
 ```{r create-warm-temperatures, eval = F}
 temps_june_july <- fluxes %>% 
@@ -200,7 +200,7 @@ temps_june_july <- fluxes %>%
   select(month, air_temperature, warm_temperatures)
 ```
 
-10. Let's visualize our observations for each month. Copy and paste the code chunk below into your starter and complete it so that:
+11. Let's visualize our observations for each month. Copy and paste the code chunk below into your starter and complete it so that:
 
 -   missing values are removed in `month` and `warm_temperatures` columns
 -   we fill two bars according to the count of warm vs. cool summer hours
@@ -235,7 +235,7 @@ temps_june_july %>%
             total_hours = n())
 ```
 
-11. Using the code chunk below in your starter file, insert the values from the last output to compute the sample statistic `p`.
+12. Using the code chunk below in your starter file, insert the values from the last output to compute the sample statistic `p`.
 
 ```{r calculate-sample-p, eval = F}
 p_hat <- (___/___) - (___/___) # Eqn is n_yes_july/n_all_july - n_yes_june/n_all_june
@@ -244,11 +244,11 @@ p_hat
 
 From this we can say...
 
-"From our data, warm temperatures are `r p_hat*100` more likely in July than in June"
+"From our data, warm temperatures are r p_hat*100 (wrap in backtick to run) more likely in July than in June"
 
 Finally, we want to see whether this probability (p_hat) is an extreme value, given the data.
 
-12. Copy and paste the code chunk below, and complete it to test the hypothesis that `warm_temperatures` is dependent on `month` in a non-random manner using 1000 bootstrap simulations. After completing the code, state below you chunk output whether you will accept or reject the null hypothesis, and why.
+13. Copy and paste the code chunk below, and complete it to test the hypothesis that `warm_temperatures` is dependent on `month` in a non-random manner using 1000 bootstrap simulations. After completing the code, state below you chunk output whether you will accept or reject the null hypothesis, and why.
 
 ```{r test-temperature-hypothesis, eval = F}
 set.seed(35)
